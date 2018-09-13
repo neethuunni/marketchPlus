@@ -50,7 +50,7 @@ ExportAsZip.prototype = {
             zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
 
             if(zipResult){
-            var uploadZip = uploadZipToEXE();
+            var uploadZip = this.uploadZipToEXE();
               if(uploadZip){
                 doc.showMessage(I18N.UPLOADSUCCESS);
               }
@@ -70,7 +70,7 @@ ExportAsZip.prototype = {
     }
   },
 
-  uploadZipToEXE: function() {
+  uploadZipToEXE: function(){
     var urlString = "http://10.7.50.13/exegesis/sketch_upload";
     var request = NSMutableURLRequest.alloc().init().autorelease();
     request.setURL(NSURL.URLWithString(urlString));
@@ -99,7 +99,7 @@ ExportAsZip.prototype = {
 
     var returnData = [NSURLConnection.sendSynchronousRequest_returningResponse_error(request, returnResponse, returnError)];
     return returnData;
-  }
+  },
   //获取导出选项
   getExportConfig: function(){
     var altWin = COSAlertWindow.new();
