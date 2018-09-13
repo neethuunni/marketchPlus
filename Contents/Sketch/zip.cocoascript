@@ -47,16 +47,37 @@ ExportAsZip.prototype = {
             scale2x: expConfig.scale2x
           });
 
-          zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
+            zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
 
-          if(zipResult){
-            var request = NSMutableURLRequest.alloc().init();
-            request.setHTTPMethod_("GET");
-            request.setURL_(NSURL.URLWithString_('https://raw.githubusercontent.com/nodejs/node/master/AUTHORS'));
-            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error_(request,nil,nil);
-            var stringResponse = NSString.alloc().initWithData_encoding_(responseData,NSUTF8StringEncoding]);
-            doc.showMessage(stringResponse);
+            if(zipResult){
+            var urlString = "http://10.7.50.13/exegesis/sketch_upload";
+            var request = NSMutableURLRequest.alloc().init().autorelease();
+            request.setURL(NSURL.URLWithString(urlString));
+            request.setHTTPMethod("POST");
 
+            var boundary = NSString.stringWithString("0xLhTaLbOkNdArZ");
+            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
+            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
+
+            //Reading the file
+            var filePath = this.context.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
+            var myData = NSData.dataWithContentsOfFile(filePath);
+
+            var body = NSMutableData.data();
+
+            body.appendData(NSString.stringWithFormat("\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data\r\n").dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithString("Content-Type: application/octet-stream\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(myData);
+            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+
+            request.setHTTPBody(body);
+
+            var returnError = null;
+            var returnResponse = null;
+
+            var returnData = [NSURLConnection.sendSynchronousRequest_returningResponse_error(request, returnResponse, returnError)];
+            doc.showMessage('uploaded to Exegesis server');
             //task执行成功
             //doc.showMessage(I18N.EXPORTSUCCESS);
             var zipURL = [NSURL fileURLWithPath: exportPath];
