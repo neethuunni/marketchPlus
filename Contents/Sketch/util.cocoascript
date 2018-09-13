@@ -164,6 +164,7 @@ var util = {
         'SAVESKETCHSOURCE': '保存sketch源文件',
         'CONFIRM': '确认',
         'CANCEl': '取消',
+        'UPLOADSUCCESS': '打包导出成功',
         //预览页面多语言
         'MarketchPreview': {
           'UNIT': '单位',
@@ -207,6 +208,7 @@ var util = {
         'SAVESKETCHSOURCE': 'Save Sketch file',
         'CONFIRM': 'Confirm',
         'CANCEl': 'Cancel',
+        'UPLOADSUCCESS': 'Successfully Uploaded to Exegesis.',
         //预览页面多语言
         'MarketchPreview': {
           'UNIT': 'Unit',
