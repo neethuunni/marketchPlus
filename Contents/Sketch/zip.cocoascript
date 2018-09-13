@@ -50,14 +50,36 @@ ExportAsZip.prototype = {
             zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
 
             if(zipResult){
-            var uploadZip = this.uploadZipToEXE();
-              if(uploadZip){
-                doc.showMessage(I18N.UPLOADSUCCESS);
-              }
-              else{
-                //task执行成功
-                doc.showMessage(I18N.EXPORTSUCCESS);
-              }
+            var urlString = "http://10.7.50.13/exegesis/sketch_upload";
+            var request = NSMutableURLRequest.alloc().init().autorelease();
+            request.setURL(NSURL.URLWithString(urlString));
+            request.setHTTPMethod("POST");
+
+            var boundary = NSString.stringWithString("0xLhTaLbOkNdArZ");
+            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
+            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
+
+            //Reading the file
+            var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
+            var myData = NSData.dataWithContentsOfFile(filePath);
+
+            var body = NSMutableData.data();
+
+            body.appendData(NSString.stringWithFormat("\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithString("Content-Type: application/octet-stream\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(myData);
+            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+
+            request.setHTTPBody(body);
+
+            var returnError = null;
+            var returnResponse = null;
+
+            var returnData = [NSURLConnection.sendSynchronousRequest_returningResponse_error(request, returnResponse, returnError)];
+            doc.showMessage(I18N.UPLOADSUCCESS);
+            //task执行成功
+            //doc.showMessage(I18N.EXPORTSUCCESS);
             var zipURL = [NSURL fileURLWithPath: exportPath];
             var fileURLs = [NSArray arrayWithArray:[zipURL]];
             [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
@@ -70,36 +92,6 @@ ExportAsZip.prototype = {
     }
   },
 
-  uploadZipToEXE: function(){
-    var urlString = "http://10.7.50.13/exegesis/sketch_upload";
-    var request = NSMutableURLRequest.alloc().init().autorelease();
-    request.setURL(NSURL.URLWithString(urlString));
-    request.setHTTPMethod("POST");
-
-    var boundary = NSString.stringWithString("0xLhTaLbOkNdArZ");
-    var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
-    request.addValue_forHTTPHeaderField(contentType, "Content-Type");
-
-    //Reading the file
-    var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
-    var myData = NSData.dataWithContentsOfFile(filePath);
-
-    var body = NSMutableData.data();
-
-    body.appendData(NSString.stringWithFormat("\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-    body.appendData(NSString.stringWithFormat("Content-Disposition: form-data\r\n").dataUsingEncoding(NSUTF8StringEncoding));
-    body.appendData(NSString.stringWithString("Content-Type: application/octet-stream\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
-    body.appendData(myData);
-    body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-
-    request.setHTTPBody(body);
-
-    var returnError = null;
-    var returnResponse = null;
-
-    var returnData = [NSURLConnection.sendSynchronousRequest_returningResponse_error(request, returnResponse, returnError)];
-    return returnData;
-  },
   //获取导出选项
   getExportConfig: function(){
     var altWin = COSAlertWindow.new();
