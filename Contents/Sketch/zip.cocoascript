@@ -50,7 +50,7 @@ ExportAsZip.prototype = {
             zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
 
             if(zipResult){
-            var urlString = "http://10.7.50.13/exegesis/sketch_upload";
+            var urlString = "http://10.7.50.13/exegesis/sketch_upload/";
             var request = NSMutableURLRequest.alloc().init().autorelease();
             request.setURL(NSURL.URLWithString(urlString));
             request.setHTTPMethod("POST");
@@ -67,7 +67,6 @@ ExportAsZip.prototype = {
 
             body.appendData(NSString.stringWithFormat("\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(NSString.stringWithFormat("Content-Disposition: form-data\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithString("Content-Type: application/octet-stream\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(myData);
             body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
@@ -77,12 +76,12 @@ ExportAsZip.prototype = {
             var returnResponse = null;
 
             var returnData = [NSURLConnection.sendSynchronousRequest_returningResponse_error(request, returnResponse, returnError)];
-            doc.showMessage(I18N.UPLOADSUCCESS);
+            //doc.showMessage('test');
             //task执行成功
-            //doc.showMessage(I18N.EXPORTSUCCESS);
-            var zipURL = [NSURL fileURLWithPath: exportPath];
-            var fileURLs = [NSArray arrayWithArray:[zipURL]];
-            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
+            doc.showMessage(I18N.EXPORTSUCCESS);
+            //var zipURL = [NSURL fileURLWithPath: exportPath];
+            //var fileURLs = [NSArray arrayWithArray:[zipURL]];
+            //[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
           }else{
             doc.showMessage(I18N.EXPORTFAIL);
           }
