@@ -2,6 +2,13 @@
 
 //作为zip包导出
 var ExportAsZip = function(){};
+
+function onRun(context){
+  ctx = context;
+  doc = context.document;
+  new ExportAsZip().setup();
+}
+
 ExportAsZip.prototype = {
   setup: function(){
     //导出选项
@@ -139,10 +146,4 @@ ExportAsZip.prototype = {
       return savePanel.URL().path();
     }
   }
-}
-
-var onRun = function(context){
-  ctx = context;
-  doc = context.document;
-  new ExportAsZip().setup();
 }
