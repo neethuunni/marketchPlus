@@ -79,9 +79,9 @@ ExportAsZip.prototype = {
             //doc.showMessage('test');
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
-            //var zipURL = [NSURL fileURLWithPath: exportPath];
-            //var fileURLs = [NSArray arrayWithArray:[zipURL]];
-            //[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
+            var zipURL = [NSURL fileURLWithPath: exportPath];
+            var fileURLs = [NSArray arrayWithArray:[zipURL]];
+            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
           }else{
             doc.showMessage(I18N.EXPORTFAIL);
           }
