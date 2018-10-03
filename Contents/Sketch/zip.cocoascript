@@ -2,13 +2,6 @@
 
 //作为zip包导出
 var ExportAsZip = function(){};
-
-function onRun(context){
-  ctx = context;
-  doc = context.document;
-  new ExportAsZip().setup();
-}
-
 ExportAsZip.prototype = {
   setup: function(){
     //导出选项
@@ -60,7 +53,7 @@ ExportAsZip.prototype = {
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
             var zipURL = [NSURL fileURLWithPath: exportPath];
-            var fileURLs = [NSArray arrayWithArray:[zipURL]];
+            var fileURLs = [NSArray arrayWithObjects:[zipURL, nil]];
             [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
           }else{
             doc.showMessage(I18N.EXPORTFAIL);
@@ -146,4 +139,10 @@ ExportAsZip.prototype = {
       return savePanel.URL().path();
     }
   }
+}
+
+var onRun = function(context){
+  ctx = context;
+  doc = context.document;
+  new ExportAsZip().setup();
 }
