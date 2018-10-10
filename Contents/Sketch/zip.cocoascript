@@ -57,7 +57,7 @@ ExportAsZip.prototype = {
 
             var boundary = NSString.stringWithString("----WebKitFormBoundary7MA4YWxkTrZu0gW");
             //var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
-            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
+            //request.addValue_forHTTPHeaderField(contentType, "Content-Type");
 
             //Reading the file
             var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
