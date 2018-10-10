@@ -50,32 +50,35 @@ ExportAsZip.prototype = {
           zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
 
           if(zipResult){
-            var urlString = "http://10.7.50.13/exegesis/sketch_upload";
-             var request = NSMutableURLRequest.alloc().init().autorelease();
-             request.setURL(NSURL.URLWithString(urlString));
-             request.setHTTPMethod("POST");
+            var urlString = "http://10.7.50.13/exegesis/sketch_upload/";
+            var request = NSMutableURLRequest.alloc().init().autorelease();
+            request.setURL(NSURL.URLWithString(urlString));
+            request.setHTTPMethod("POST");
 
-             var boundary = NSString.stringWithString("0xLhTaLbOkNdArZ");
-             var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
-             request.addValue_forHTTPHeaderField(contentType, "Content-Type");
+            var boundary = NSString.stringWithString("0xLhTaLbOkNdArZ");
+            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
+            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
 
-             //Reading the file
-             var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
-             var myData = NSData.dataWithContentsOfFile(filePath);
+            //Reading the file
+            var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
+            var myData = NSData.dataWithContentsOfFile(filePath);
+            if (myData == nil)
+            {
+            log("Failed to read file, error", error);
+            }
+            var body = NSMutableData.data();
 
-             var body = NSMutableData.data();
+            body.appendData(NSString.stringWithFormat("\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n","file").dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(myData);
+            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
-             body.appendData(NSString.stringWithFormat("\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-             body.appendData(NSString.stringWithFormat("Content-Disposition: form-data\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
-             body.appendData(myData);
-             body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            request.setHTTPBody(body);
 
-             request.setHTTPBody(body);
+            var error = null;
+            var response = null;
 
-             var returnError = null;
-             var returnResponse = null;
-
-             var returnData = [NSURLConnection.sendSynchronousRequest_returningResponse_error(request, returnResponse, returnError)];
+            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
 
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
