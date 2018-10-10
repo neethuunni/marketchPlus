@@ -50,7 +50,7 @@ ExportAsZip.prototype = {
           zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
 
           if(zipResult){
-            var urlString = "http://10.7.50.13/exegesis/sketch_upload/";
+            var urlString = "http://10.7.50.13:8000/exegesis/sketch_upload/";
             var request = NSMutableURLRequest.alloc().init().autorelease();
             request.setURL(NSURL.URLWithString(urlString));
             request.setHTTPMethod("POST");
