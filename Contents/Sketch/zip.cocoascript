@@ -64,7 +64,7 @@ ExportAsZip.prototype = {
             var myData = NSData.dataWithContentsOfFile(filePath);
             if (myData == nil)
             {
-            log("Failed to read file, error", error);
+            doc.showMessage("Failed to read file");
             }
             var body = NSMutableData.data();
 
@@ -79,7 +79,7 @@ ExportAsZip.prototype = {
             var response = null;
 
             var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
-
+            doc.showMessage(responseData);
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
             var zipURL = [NSURL fileURLWithPath: exportPath];
