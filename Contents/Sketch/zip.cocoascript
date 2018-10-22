@@ -64,7 +64,7 @@ ExportAsZip.prototype = {
             //var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
             var filePath = 'Users/qburst/Documents/marktchfile.zip';
             var myData = NSData.dataWithContentsOfFile(filePath);
-            var filename = filePath.lastPathComponent();
+            var filename = 'marktchfile.zip';
             if (myData == nil)
             {
             doc.showMessage("Failed to read file");
