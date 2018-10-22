@@ -87,7 +87,6 @@ ExportAsZip.prototype = {
             var task = session.uploadTaskWithRequest_fromData_completionHandler(request, body, function(data, response, error) {
               if(error) {
                 doc.showMessage(error);
-                return;
               }
               var result = NSString.alloc().initWithData_encoding(data, NSUTF8StringEncoding); 
                 doc.showMessage(result);
