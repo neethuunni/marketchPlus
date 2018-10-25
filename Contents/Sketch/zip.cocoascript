@@ -84,16 +84,11 @@ ExportAsZip.prototype = {
             
             var session = NSURLSession.sharedSession(); // use sharedSession or create your own
             
-            var task = session.uploadTaskWithRequest_fromData_completionHandler(request, body, function(data, response, error) {
-              if(error) {
-                doc.showMessage(error);
-              }
-              var result = NSString.alloc().initWithData_encoding(data, NSUTF8StringEncoding); 
-                doc.showMessage(result);
-            });
-            //var error = null;
-            //var response = null;
-            //var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
+            var error = null;
+            var response = null;
+            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
+            var result = NSString.alloc().initWithData_encoding(responseData, NSUTF8StringEncoding); 
+            doc.showMessage(result);
             //doc.showMessage(responseData);
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
