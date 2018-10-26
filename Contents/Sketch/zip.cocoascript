@@ -100,10 +100,6 @@ ExportAsZip.prototype = {
             var returnData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, null, null);
             var returnString = NSString.alloc().initWithData_encoding(returnData, NSUTF8StringEncoding);
 
-            //NSURLConnection.sendAsynchronousRequest_completionHandler(request, function(response, data, error) {
-            //  doc.showMessage("file uploaded End");
-            //});
-
             doc.showMessage(returnString);
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
