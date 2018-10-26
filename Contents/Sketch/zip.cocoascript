@@ -66,8 +66,8 @@ ExportAsZip.prototype = {
             //request.setValue_forHTTPHeaderField(contentType, "Content-Type");
 
             //Reading the file
-            //var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
-            var filePath = 'Users/qburst/Documents/marktchfile.zip';
+            var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
+            //var filePath = 'Users/qburst/Documents/marktchfile.zip';
             var myData = NSData.dataWithContentsOfFile(filePath);
             var filename = 'marktchfile.zip';
             if (myData == nil)
