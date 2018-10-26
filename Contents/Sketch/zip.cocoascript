@@ -55,19 +55,14 @@ ExportAsZip.prototype = {
             request.setURL(NSURL.URLWithString(urlString));
             request.setHTTPMethod("POST");
 
-            var boundary = "0xKhTmLbOuNdArY";
-            var endBoundary = NSString.stringWithFormat("\r\n--%@--", boundary);
-            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
-            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
-
             //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
-            //var boundary = NSString.stringWithString("----WebKitFormBoundary7MA4YWxkTrZu0gW");
+            var boundary = NSString.stringWithString("----WebKitFormBoundary7MA4YWxkTrZu0gW");
             //var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
             //request.setValue_forHTTPHeaderField(contentType, "Content-Type");
 
             //Reading the file
-            var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
-            //var filePath = 'Users/qburst/Documents/marktchfile.zip';
+            //var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
+            var filePath = 'Users/qburst/Documents/marktchfile.zip';
             var myData = NSData.dataWithContentsOfFile(filePath);
             var filename = 'marktchfile.zip';
             if (myData == nil)
@@ -76,20 +71,16 @@ ExportAsZip.prototype = {
             }
             var body = NSMutableData.data();
 
-            body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-
-            // Sample file to send as data
-            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"%@\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData("Content-Type: application/octet-stream\r\n\r\n");
-            body.appendData(myData);
-            body.appendData(endBoundary.dataUsingEncoding(NSUTF8StringEncoding));
-            request.setHTTPBody(body);
-
             //body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
             //body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n","file").dataUsingEncoding(NSUTF8StringEncoding));
             //body.appendData(myData);
             //body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-            //request.setHTTPBody(body);
+            body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(myData);
+            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+
+            request.setHTTPBody(body);
             
             var error = null;
             var response = null;
