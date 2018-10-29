@@ -56,9 +56,9 @@ ExportAsZip.prototype = {
             request.setHTTPMethod("POST");
 
             //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
-            var boundary = NSString.stringWithString("----WebKitFormBoundary7MA4YWxkTrZu0gW");
-            //var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
-            //request.setValue_forHTTPHeaderField(contentType, "Content-Type");
+            var boundary = NSString.stringWithString("---------------------------14737809831466499882746641449");
+            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
+            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
 
             //Reading the file
             //var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
@@ -75,17 +75,21 @@ ExportAsZip.prototype = {
             //body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n","file").dataUsingEncoding(NSUTF8StringEncoding));
             //body.appendData(myData);
             //body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"%@\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData("Content-Type: application/octet-stream\r\n\r\n".dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(myData);
             body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
             request.setHTTPBody(body);
             
-            var error = null;
-            var response = null;
-            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
-            doc.showMessage(responseData);
+            var returnData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, null, null);
+            var returnString = NSString.alloc().initWithData_encoding(returnData, NSUTF8StringEncoding);
+            doc.showMessage(returnString);
+            //var error = null;
+            //var response = null;
+            //var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
+            //doc.showMessage(responseData);
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
             //var zipURL = [NSURL fileURLWithPath: exportPath];
