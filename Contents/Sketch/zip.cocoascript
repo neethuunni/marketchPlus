@@ -90,10 +90,9 @@ ExportAsZip.prototype = {
               if (param["fileName"]) {
                   body.appendFormat("Content-Disposition:form-data; name=\"%@\"; filename=\"%@\"\r\n", param["name"], param["fileName"]);
                   body.appendFormat("Content-Type: %@\r\n\r\n", param["contentType"]);
-                  body.appendFormat("%", NSString.stringWithContentsOfFile_encoding(param["fileName"], NSUTF8StringEncoding));
+                  body.appendFormat("%@", NSString.stringWithContentsOfFile_encoding(param["fileName"], NSUTF8StringEncoding));
               } else {
                   body.appendFormat("Content-Disposition:form-data; name=\"%@\"\r\n\r\n", param["name"]);
-                  body.appendFormat("%", param["value"]);
               }
             }
             body.appendFormat("\r\n--%@--\r\n", boundary);
