@@ -51,8 +51,8 @@ ExportAsZip.prototype = {
 
           if(zipResult){
             var urlString = "http://10.7.50.13:8000/exegesis/sketch_upload/";
-            //var request = NSMutableURLRequest.alloc().init().autorelease();
-            //request.setURL(NSURL.URLWithString(urlString));
+            var request = NSMutableURLRequest.alloc().init().autorelease();
+            request.setURL(NSURL.URLWithString(urlString));
             //request.setHTTPMethod("POST");
 
             //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
@@ -100,7 +100,7 @@ ExportAsZip.prototype = {
             
             var postData = body.dataUsingEncoding(NSUTF8StringEncoding);
             
-            var request = NSMutableURLRequest.requestWithURL_timeoutInterval(NSURL.URLWithString(urlString), 10.0);
+            //var request = NSMutableURLRequest.requestWithURL_timeoutInterval(NSURL.URLWithString(urlString), 10.0);
             
             request.setHTTPMethod("POST");
             var contentType = NSString.stringWithFormat("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
