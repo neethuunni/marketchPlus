@@ -84,7 +84,7 @@ ExportAsZip.prototype = {
             var boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
 
             var error;
-            var body = NSMutableString.string();
+            var body = NSMutableData.data();
             for (var param in parameters) {
               //var myDataString = NSString.stringWithContentsOfFile(param["fileName"]);
               body.appendData(NSString.stringWithFormat("--%@\r\n", boundary));
