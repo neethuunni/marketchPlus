@@ -56,7 +56,7 @@ ExportAsZip.prototype = {
             request.setHTTPMethod("POST");
 
             //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
-            var boundary = NSString.stringWithString("---------------------------14737809831466499882746641449");
+            var boundary = NSString.stringWithString("63c5979328c44e2c869349443a94200e");
             var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
             request.addValue_forHTTPHeaderField(contentType, "Content-Type");
 
