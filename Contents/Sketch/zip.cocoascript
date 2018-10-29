@@ -62,9 +62,9 @@ ExportAsZip.prototype = {
 
             //Reading the file
             //var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
-            var filePath = 'Users/qburst/Documents/marktchfile.zip';
+            var filePath = 'Users/qburst/Documents/marketch.zip';
             var myData = NSData.dataWithContentsOfFile(filePath);
-            var filename = 'marktchfile.zip';
+            var filename = 'marketch';
             if (myData == nil)
             {
             doc.showMessage("Failed to read file");
@@ -76,8 +76,7 @@ ExportAsZip.prototype = {
             //body.appendData(myData);
             //body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(NSString.stringWithFormat("\r\n--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"%@\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData("Content-Type: application/octet-stream\r\n\r\n");
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"%@.zip\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(myData);
             body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
