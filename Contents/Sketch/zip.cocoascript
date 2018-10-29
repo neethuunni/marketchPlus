@@ -86,12 +86,12 @@ ExportAsZip.prototype = {
             var error;
             var body = NSMutableString.string();
             for (var param in parameters) {
-              var myDataString = NSString.stringWithContentsOfFile(param["fileName"]);
+              //var myDataString = NSString.stringWithContentsOfFile(param["fileName"]);
               body.appendData(NSString.stringWithFormat("--%@\r\n", boundary));
               if (param["fileName"]) {
                   body.appendData(NSString.stringWithFormat("Content-Disposition:form-data; name=\"%@\"; filename=\"%@\"\r\n", param["name"], param["fileName"]));
                   body.appendData(NSString.stringWithFormat("Content-Type: %@\r\n\r\n", param["contentType"]));
-                  body.appendData("%@", myDataString);
+                  body.appendData("%@", myData);
               } else {
                   body.appendData(NSString.stringWithFormat("Content-Disposition:form-data; name=\"%@\"\r\n\r\n", param["name"]));
               }
