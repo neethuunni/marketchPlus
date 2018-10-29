@@ -86,16 +86,17 @@ ExportAsZip.prototype = {
             var error;
             var body = NSMutableString.string();
             for (var param in parameters) {
-              body.appendFormat("--%@\r\n", boundary);
+              var myDataString = NSString.stringWithContentsOfFile(param["fileName"]);
+              body.appendData(NSString.stringWithFormat("--%@\r\n", boundary));
               if (param["fileName"]) {
-                  body.appendFormat("Content-Disposition:form-data; name=\"%@\"; filename=\"%@\"\r\n", param["name"], param["fileName"]);
-                  body.appendFormat("Content-Type: %@\r\n\r\n", param["contentType"]);
-                  body.appendFormat("%@", NSString.stringWithContentsOfFile_encoding(param["fileName"], NSUTF8StringEncoding));
+                  body.appendData(NSString.stringWithFormat("Content-Disposition:form-data; name=\"%@\"; filename=\"%@\"\r\n", param["name"], param["fileName"]));
+                  body.appendData(NSString.stringWithFormat("Content-Type: %@\r\n\r\n", param["contentType"]));
+                  body.appendData("%@", myDataString);
               } else {
-                  body.appendFormat("Content-Disposition:form-data; name=\"%@\"\r\n\r\n", param["name"]);
+                  body.appendData(NSString.stringWithFormat("Content-Disposition:form-data; name=\"%@\"\r\n\r\n", param["name"]));
               }
             }
-            body.appendFormat("\r\n--%@--\r\n", boundary);
+            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary));
             
             var postData = body.dataUsingEncoding(NSUTF8StringEncoding);
             
