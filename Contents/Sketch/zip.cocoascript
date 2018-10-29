@@ -77,12 +77,13 @@ ExportAsZip.prototype = {
             //body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
             var headers = {
-                "content-type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+                "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
                 "cache-control": "no-cache"
             };
             var parameters = [{
               "name": "uploaded_file",
-              "fileName": "marketch.zip"
+              "fileName": "marketch.zip",
+              "contentType": "multipart/form-data"
             }];
             var boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
 
