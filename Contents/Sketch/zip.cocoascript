@@ -67,7 +67,7 @@ ExportAsZip.prototype = {
             //var filename = 'marketch';
             if (myData == nil)
             {
-            doc.showMessage("Failed to read file");
+            doc.showMessage("Failed to read file, file empty");
             }
             //var body = NSMutableData.data();
 
@@ -91,7 +91,7 @@ ExportAsZip.prototype = {
               if (param["fileName"]) {
                   body.appendData(NSString.stringWithFormat("Content-Disposition:form-data; name=\"%@\"; filename=\"%@\"\r\n", param["name"], param["fileName"]));
                   body.appendData(NSString.stringWithFormat("Content-Type: %@\r\n\r\n", param["contentType"]));
-                  body.appendData("%@", myData);
+                  body.appendData(myData);
               } else {
                   body.appendData(NSString.stringWithFormat("Content-Disposition:form-data; name=\"%@\"\r\n\r\n", param["name"]));
               }
