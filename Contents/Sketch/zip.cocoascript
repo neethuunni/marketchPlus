@@ -73,7 +73,7 @@ ExportAsZip.prototype = {
 
             body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n; filename=\"%@\"\r\n","uploaded_file", filename).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("Content-Type: application/zip\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
+            //body.appendData(NSString.stringWithFormat("Content-Type: application/zip\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(myData);
             body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
