@@ -61,10 +61,10 @@ ExportAsZip.prototype = {
             request.addValue_forHTTPHeaderField(contentType, "Content-Type");
 
             //Reading the file
-            var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
-            //var filePath = 'Users/qburst/Documents/marketch.zip';
+            //var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
+            var filePath = 'Users/qburst/Documents/marketch.zip';
             var myData = NSData.dataWithContentsOfFile(filePath);
-            var filename = 'markthfile.zip';
+            var filename = 'marketch.zip';
             if (myData == nil)
             {
             doc.showMessage("Failed to read file, file empty");
