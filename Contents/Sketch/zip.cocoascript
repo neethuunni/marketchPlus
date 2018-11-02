@@ -53,10 +53,10 @@ ExportAsZip.prototype = {
             var urlString = "http://10.7.50.13:8000/exegesis/sketch_upload/";
             var request = NSMutableURLRequest.alloc().init().autorelease();
             request.setURL(NSURL.URLWithString(urlString));
-            //request.setHTTPMethod("POST");
+            request.setHTTPMethod("POST");
 
             //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
-            //var boundary = NSString.stringWithString("63c5979328c44e2c869349443a94200e");
+            var boundary = NSString.stringWithString("63c5979328c44e2c869349443a94200e");
             //var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
             //request.addValue_forHTTPHeaderField(contentType, "Content-Type");
 
@@ -69,41 +69,12 @@ ExportAsZip.prototype = {
             {
             doc.showMessage("Failed to read file, file empty");
             }
-            //var body = NSMutableData.data();
-
-            //body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-            //body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n","file").dataUsingEncoding(NSUTF8StringEncoding));
-            //body.appendData(myData);
-            //body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-
-            var parameters = [{
-              "name": "uploaded_file",
-              "fileName": "marketch.zip",
-              "contentType": "application/zip"
-            }];
-            var boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
-
-            var error;
             var body = NSMutableData.data();
-            for (var param in parameters) {
-              //var myDataString = NSString.stringWithContentsOfFile(param["fileName"]);
-              body.appendData(NSString.stringWithFormat("--%@\r\n", boundary));
-              if (param["fileName"]) {
-                  body.appendData(NSString.stringWithFormat("Content-Disposition:form-data; name=\"%@\"; filename=\"%@\"\r\n", param["name"], param["fileName"]));
-                  body.appendData(NSString.stringWithFormat("Content-Type: %@\r\n\r\n", param["contentType"]));
-                  body.appendData(myData);
-              } else {
-                  body.appendData(NSString.stringWithFormat("Content-Disposition:form-data; name=\"%@\"\r\n\r\n", param["name"]));
-              }
-            }
-            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary));
-            
-            var postData = body.dataUsingEncoding(NSUTF8StringEncoding);
-            
-            request.setHTTPMethod("POST");
-            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
-            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
-            request.setHTTPBody(postData);
+
+            body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n","file").dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(myData);
+            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
             var error = null;
             var response = null;
