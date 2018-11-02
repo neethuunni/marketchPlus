@@ -64,7 +64,7 @@ ExportAsZip.prototype = {
             var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
             //var filePath = 'Users/qburst/Documents/marketch.zip';
             var myData = NSData.dataWithContentsOfFile(filePath);
-            //var filename = 'marketch';
+            var filename = 'markthfile.zip';
             if (myData == nil)
             {
             doc.showMessage("Failed to read file, file empty");
@@ -72,7 +72,7 @@ ExportAsZip.prototype = {
             var body = NSMutableData.data();
 
             body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n","uploaded_file").dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n; filename=\"%@\"\r\n","uploaded_file", filename).dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(NSString.stringWithFormat("Content-Type: application/zip\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(myData);
             body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
