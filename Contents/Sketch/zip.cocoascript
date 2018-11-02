@@ -57,14 +57,13 @@ ExportAsZip.prototype = {
 
             //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
             var boundary = NSString.stringWithString("63c5979328c44e2c869349443a94200e");
-            //var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
-            //request.addValue_forHTTPHeaderField(contentType, "Content-Type");
+            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%@", boundary);
+            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
 
             //Reading the file
             var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
             //var filePath = 'Users/qburst/Documents/marketch.zip';
             var myData = NSData.dataWithContentsOfFile(filePath);
-            doc.showMessage(myData);
             //var filename = 'marketch';
             if (myData == nil)
             {
