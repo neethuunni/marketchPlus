@@ -64,6 +64,7 @@ ExportAsZip.prototype = {
             var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
             //var filePath = 'Users/qburst/Documents/marketch.zip';
             var myData = NSData.dataWithContentsOfFile(filePath);
+            doc.showMessage(myData);
             //var filename = 'marketch';
             if (myData == nil)
             {
