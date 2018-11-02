@@ -77,7 +77,7 @@ ExportAsZip.prototype = {
             body.appendData(myData);
             body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
-            request.setHttpBody(body);
+            request.setHTTPBody(body);
 
             var error = null;
             var response = null;
