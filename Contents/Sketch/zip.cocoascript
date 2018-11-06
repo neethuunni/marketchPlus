@@ -55,7 +55,8 @@ ExportAsZip.prototype = {
             var body = NSMutableData.data();
 
             // Body part for the attachament. This is an image.
-            var imageData = UIImageJPEGRepresentation(UIImage.imageNamed("ranking"), 0.6);
+            var imagePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/image.jpg';
+            var imageData = NSData.dataWithContentsOfURL(imagePath);
             if (imageData) {
               body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
               body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", "uploaded_file").dataUsingEncoding(NSUTF8StringEncoding));
