@@ -69,7 +69,7 @@ ExportAsZip.prototype = {
 
             var apiKey =  "55e76dc4bbae25b066cb";
             var accept = "application/zip";
-            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
+            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%@", boundary);
             
             var url = NSURL.URLWithString("http://10.7.50.13:8000/exegesis/sketch_upload/");
             var request = NSMutableURLRequest.requestWithURL(url);
