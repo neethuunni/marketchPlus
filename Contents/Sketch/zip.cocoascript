@@ -82,7 +82,7 @@ ExportAsZip.prototype = {
             var request = NSMutableURLRequest.requestWithURL(url);
             request.setHTTPMethod("POST");
             request.setHTTPBody(body);
-            var uploadTask = session.dataTaskWithRequest_completionHandler(request, nil);
+            var uploadTask = session.dataTaskWithRequest(request);
 
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
