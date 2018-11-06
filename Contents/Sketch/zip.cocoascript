@@ -67,25 +67,21 @@ ExportAsZip.prototype = {
             }
             body.appendData(NSString.stringWithFormat("--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
-            // Setup the session
-            var sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
-            sessionConfiguration.setHTTPAdditionalHeaders({
-              "api-key": "55e76dc4bbae25b066cb",
-              "Accept": "application/jpeg",
-              "Content-Type": NSString.stringWithFormat("multipart/form-data; boundary=%", boundary)
-            });
-
-            // Create the session
-            // We can use the delegate to track upload progress
-            var session = NSURLSession.sessionWithConfiguration(sessionConfiguration);
-
-            // Data uploading task. We could use NSURLSessionUploadTask instead of NSURLSessionDataTask if we needed to support uploads in the background
+            var apiKey =  "55e76dc4bbae25b066cb";
+            var accept = "application/zip";
+            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%", boundary);
+            
             var url = NSURL.URLWithString("http://10.7.50.13:8000/exegesis/sketch_upload/");
             var request = NSMutableURLRequest.requestWithURL(url);
+            
             request.setHTTPMethod("POST");
             request.setHTTPBody(body);
-            var uploadTask = session.uploadTaskWithRequest_fromData(request, imageData);
-
+            
+            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
+            request.addValue_forHTTPHeaderField(accept, "Accept");
+            request.addValue_forHTTPHeaderField(apiKey, "api-key");
+            
+            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, null, null);
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
             //var zipURL = [NSURL fileURLWithPath: exportPath];
