@@ -50,37 +50,39 @@ ExportAsZip.prototype = {
           zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
 
           if(zipResult){
-            // Build the request body
-            var boundary = "SportuondoFormBoundary";
+           var urlString = "http://10.7.50.13:8000/exegesis/sketch_upload/";
+            var request = NSMutableURLRequest.alloc().init().autorelease();
+            request.setURL(NSURL.URLWithString(urlString));
+            request.setHTTPMethod("POST");
+
+            //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
+            var boundary = NSString.stringWithString("63c5979328c44e2c869349443a94200e");
+            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%@", boundary);
+            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
+
+            //Reading the file
+            var filePath = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
+            //var filePath = 'Users/qburst/Documents/marketch.zip';
+            var myData = NSData.dataWithContentsOfFile(filePath);
+            var filename = 'marketch.zip';
+            if (myData == nil)
+            {
+            doc.showMessage("Failed to read file !");
+            }
             var body = NSMutableData.data();
 
-            // Body part for the attachament. This is an image.
-            var path = ctx.scriptPath.stringByDeletingLastPathComponent() + '/image.jpg';
-            var imageData = NSData.dataWithContentsOfFile(path);
+            body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n; filename=\"%@\"\r\n","uploaded_file", filename).dataUsingEncoding(NSUTF8StringEncoding));
+            //body.appendData(NSString.stringWithFormat("Content-Type: application/zip\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(myData);
+            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
-            if (imageData) {
-              body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-              body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", "uploaded_file").dataUsingEncoding(NSUTF8StringEncoding));
-              body.appendData(imageData);
-              body.appendData(NSString.stringWithFormat("\r\n"));
-            }
-            body.appendData(NSString.stringWithFormat("--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-
-            var apiKey =  "55e76dc4bbae25b066cb";
-            var accept = "application/zip";
-            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%@", boundary);
-            
-            var url = NSURL.URLWithString("http://10.7.50.13:8000/exegesis/sketch_upload/");
-            var request = NSMutableURLRequest.requestWithURL(url);
-            
-            request.setHTTPMethod("POST");
             request.setHTTPBody(body);
-            
-            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
-            request.addValue_forHTTPHeaderField(accept, "Accept");
-            request.addValue_forHTTPHeaderField(apiKey, "api-key");
-            
-            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, null, null);
+
+            var error = null;
+            var response = null;
+            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
+            doc.showMessage(responseData);
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
             //var zipURL = [NSURL fileURLWithPath: exportPath];
