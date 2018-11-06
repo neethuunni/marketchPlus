@@ -56,12 +56,11 @@ ExportAsZip.prototype = {
 
             // Body part for the attachament. This is an image.
             var path = ctx.scriptPath.stringByDeletingLastPathComponent() + '/image.jpg';
-            var imageData = NSData.dataWithContentsOfFile(path);
+            var imageData = [[UIImage alloc] initWithContentsOfFile:path];
 
             if (imageData) {
               body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
               body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", "uploaded_file").dataUsingEncoding(NSUTF8StringEncoding));
-              body.appendData("Content-Type: application/octet-stream\r\n\r\n");
               body.appendData(imageData);
               body.appendData(NSString.stringWithFormat("\r\n"));
             }
