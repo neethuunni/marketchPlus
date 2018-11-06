@@ -55,8 +55,8 @@ ExportAsZip.prototype = {
             var body = NSMutableData.data();
 
             // Body part for the attachament. This is an image.
-            var path = ctx.scriptPath.stringByDeletingLastPathComponent() + '/image.jpg';
-            var imageData = [[UIImage alloc] initWithContentsOfFile:path];
+            var path = ctx.scriptPath.stringByDeletingLastPathComponent() + '/markthfile.zip';
+            var imageData = NSData.initWithContentsOfFile_encoding_error(path, NSUTF8StringEncoding, null);
 
             if (imageData) {
               body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
