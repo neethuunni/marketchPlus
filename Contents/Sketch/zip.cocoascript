@@ -56,13 +56,12 @@ ExportAsZip.prototype = {
 
             // Body part for the attachament. This is an image.
             var path = ctx.scriptPath.stringByDeletingLastPathComponent() + '/image.jpg';
-            var img = NSData.dataWithContentsOfFile(path);
-            var imageData = UIImage.imageWithData(img);
+            var imageData = NSData.dataWithContentsOfFile(path);
 
             if (imageData) {
               body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
               body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"; filename=\"image.jpg\"\r\n", "uploaded_file").dataUsingEncoding(NSUTF8StringEncoding));
-              body.appendData("Content-Type: image/jpeg\r\n\r\n");
+              body.appendData("Content-Type: application/octet-stream\r\n\r\n");
               body.appendData(imageData);
               body.appendData(NSString.stringWithFormat("\r\n"));
             }
@@ -72,7 +71,7 @@ ExportAsZip.prototype = {
             var sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration();
             sessionConfiguration.setHTTPAdditionalHeaders({
               "api-key": "55e76dc4bbae25b066cb",
-              "Accept": "application/json",
+              "Accept": "application/jpeg",
               "Content-Type": NSString.stringWithFormat("multipart/form-data; boundary=%", boundary)
             });
 
