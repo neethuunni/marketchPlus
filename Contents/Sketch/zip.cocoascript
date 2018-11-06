@@ -77,14 +77,14 @@ ExportAsZip.prototype = {
 
             // Create the session
             // We can use the delegate to track upload progress
-            var session = NSURLSession.sessionWithConfiguration_delegate_delegateQueue(sessionConfiguration, self, null);
+            var session = NSURLSession.sessionWithConfiguration(sessionConfiguration);
 
             // Data uploading task. We could use NSURLSessionUploadTask instead of NSURLSessionDataTask if we needed to support uploads in the background
             var url = NSURL.URLWithString("http://10.7.50.13:8000/exegesis/sketch_upload/");
             var request = NSMutableURLRequest.requestWithURL(url);
             request.setHTTPMethod("POST");
             request.setHTTPBody(body);
-            var uploadTask = session.dataTaskWithRequest_completionHandler(request, nil);
+            var uploadTask = session.uploadTaskWithRequest_fromData(request, imageData);
 
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
