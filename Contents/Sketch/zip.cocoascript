@@ -80,13 +80,9 @@ ExportAsZip.prototype = {
 
             request.setHTTPBody(body);
             request.setValue_forHTTPHeaderField(apiKey, "X-theapikey");
-            
-            NSURLConnection.sendAsynchronousRequest_queue_completionHandler(request, self.queue(), block('NSURLResponse*,NSData*,NSError*', function(response, data, connectionError) {
-              doc.showMessage("Endddd");
-            }));
 
-            //var response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-            //var result = [NSJSONSerialization JSONObjectWithData:response options:nil error:nil];
+            var response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+            var result = [NSJSONSerialization JSONObjectWithData:response options:nil error:nil];
             //var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
             //doc.showMessage(responseData);
             //task执行成功
