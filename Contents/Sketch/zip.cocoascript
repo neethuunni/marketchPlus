@@ -56,11 +56,11 @@ ExportAsZip.prototype = {
             request.setHTTPMethod("POST");
 
             //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
-            var boundary = NSString.stringWithString("0xKhTmLbOuNdArY");
+            var boundary = NSString.stringWithString("63c5979328c44e2c869349443a94200e");
             var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%@", boundary);
             var apiKey = NSString.stringWithString("9e301234");
             request.addValue_forHTTPHeaderField(contentType, "Content-Type");
-
+            request.setValue_forHTTPHeaderField(apiKey, "X-theapikey");
             //Reading the file
             var filePath = exportPath;
             //var filePath = 'Users/qburst/Documents/marketch.zip';
@@ -73,17 +73,16 @@ ExportAsZip.prototype = {
             var body = NSMutableData.data();
 
             body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"%@\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData("Content-Type: application/octet-stream\r\n\r\n");
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n; filename=\"%@\"\r\n","uploaded_file", filename).dataUsingEncoding(NSUTF8StringEncoding));
+            //body.appendData(NSString.stringWithFormat("Content-Type: application/zip\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(myData);
-            body.appendData(NSString.stringWithFormat("\r\n--%@--", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
             request.setHTTPBody(body);
-            request.setValue_forHTTPHeaderField(apiKey, "X-theapikey");
 
-            //var response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-            //var result = [NSJSONSerialization JSONObjectWithData:response options:nil error:nil];
-            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, nil, nil);
+            var response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+            var result = [NSJSONSerialization JSONObjectWithData:response options:nil error:nil];
+            //var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
             //doc.showMessage(responseData);
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
