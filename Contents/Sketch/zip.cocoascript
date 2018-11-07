@@ -74,16 +74,16 @@ ExportAsZip.prototype = {
 
             body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
             body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"%@\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithString("Content-Type: application/octet-stream\r\n\r\n"));
+            body.appendData("Content-Type: application/octet-stream\r\n\r\n");
             body.appendData(myData);
             body.appendData(NSString.stringWithFormat("\r\n--%@--", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
             request.setHTTPBody(body);
             request.setValue_forHTTPHeaderField(apiKey, "X-theapikey");
 
-            var response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-            var result = [NSJSONSerialization JSONObjectWithData:response options:nil error:nil];
-            //var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
+            //var response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+            //var result = [NSJSONSerialization JSONObjectWithData:response options:nil error:nil];
+            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, nil, nil);
             //doc.showMessage(responseData);
             //task执行成功
             doc.showMessage(I18N.EXPORTSUCCESS);
