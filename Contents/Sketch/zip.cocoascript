@@ -56,8 +56,9 @@ ExportAsZip.prototype = {
             request.setHTTPMethod("POST");
 
             //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
-            var boundary = NSString.stringWithString("63c5979328c44e2c869349443a94200e");
+            var boundary = NSString.stringWithString("0xKhTmLbOuNdArY");
             var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%@", boundary);
+            var apiKey = NSString.stringWithString("9e301234");
             request.addValue_forHTTPHeaderField(contentType, "Content-Type");
 
             //Reading the file
@@ -72,15 +73,20 @@ ExportAsZip.prototype = {
             var body = NSMutableData.data();
 
             body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"%@\"\r\n\r\n; filename=\"%@\"\r\n","uploaded_file", filename).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("Content-Type: application/json\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"%@\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithString("Content-Type: application/octet-stream\r\n\r\n"));
             body.appendData(myData);
-            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
+            body.appendData(NSString.stringWithFormat("\r\n--%@--", boundary).dataUsingEncoding(NSUTF8StringEncoding));
 
             request.setHTTPBody(body);
+            request.setValue_forHTTPHeaderField(apiKey, "X-theapikey");
+            
+            NSURLConnection.sendAsynchronousRequest_queue_completionHandler(request, self.queue(), block('NSURLResponse*,NSData*,NSError*', function(response, data, connectionError) {
+              doc.showMessage("Endddd");
+            }));
 
-            var response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-            var result = [NSJSONSerialization JSONObjectWithData:response options:nil error:nil];
+            //var response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+            //var result = [NSJSONSerialization JSONObjectWithData:response options:nil error:nil];
             //var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
             //doc.showMessage(responseData);
             //task执行成功
