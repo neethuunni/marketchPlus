@@ -181,7 +181,7 @@ Marketch.prototype = {
     [[NSFileManager alloc] createDirectoryAtPath:artboardFolder withIntermediateDirectories:nil attributes:nil error:nil];
     //数据文件路径
     dataPath = [artboardFolder stringByAppendingPathComponent: @'data.js'];
-    metaPath = [artboardFolder stringByAppendingPathComponent: @'meta.js'];
+    metaPath = [artboardFolder stringByAppendingPathComponent: @'meta.json'];
     //html文件路径
     htmlPath = [artboardFolder stringByAppendingPathComponent: @'index.html'];
 
