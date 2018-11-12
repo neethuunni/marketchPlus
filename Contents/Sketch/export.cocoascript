@@ -59,6 +59,14 @@ var Marketch = function(){
     //画板数据
     artboard: {}
   };
+
+  this.metaData = [];
+
+  this.artboardMeta = {
+    name: '',
+    src: '',
+    type: ''
+  };
   //保存被合并小图输出的图层父节点id
   this.groupExportLayers = [];
   //当前蒙版图层id
@@ -163,6 +171,7 @@ Marketch.prototype = {
     var artboardFolder = [NSString stringWithFormat: @'%@/%@', basePath, tmpFolder];
     var imagePath = '';
     var dataPath = '';
+    var metaPath = '';
 
     //删除主目录（如果存在）
     var result = [[NSFileManager alloc] removeItemAtPath:basePath error:nil];
@@ -172,6 +181,7 @@ Marketch.prototype = {
     [[NSFileManager alloc] createDirectoryAtPath:artboardFolder withIntermediateDirectories:nil attributes:nil error:nil];
     //数据文件路径
     dataPath = [artboardFolder stringByAppendingPathComponent: @'data.js'];
+    metaPath = [artboardFolder stringByAppendingPathComponent: @'meta.js'];
     //html文件路径
     htmlPath = [artboardFolder stringByAppendingPathComponent: @'index.html'];
 
@@ -180,6 +190,7 @@ Marketch.prototype = {
     this.tmpPath.basePath = artboardFolder;
     //数据文件路径
     this.tmpPath.dataPath = dataPath;
+    this.tmpPath.metaPath = metaPath;
     //html文件路径
     this.tmpPath.htmlPath = htmlPath;
   },
@@ -291,6 +302,13 @@ Marketch.prototype = {
     var loopLayer = artboard.children().objectEnumerator();
     //获取画板数据
     var artboardData = util.getLayerData(artboard, {type: 'artboard', zIndex: this.artboardZIndex});
+
+    this.artboardMeta = {
+      name: artboardData.name,
+      src: artboardData.src,
+      type: artboardData.type
+    }
+    this.metaData.push(artboardMeta);
     //导出选项
     var exportConfig = {
       //导出文件名（不包含扩展名）
@@ -543,10 +561,14 @@ Marketch.prototype = {
   //保存数据文件
   saveDataFile: function(){
     var jsonData = 'var pageData = '+ JSON.stringify(this.sketchData);
+    var metaData = 'var metaData = '+ JSON.stringify(this.metaData);
     var content = [NSString stringWithCString:jsonData encoding:NSUTF8StringEncoding];
+    var metaContent = [NSString stringWithCString:metaData encoding:NSUTF8StringEncoding];
     var dataPath = this.tmpPath.dataPath;
+    var metaPath = this.tmpPath.metaPath;
 
     [content writeToFile:dataPath atomically:1 encoding:NSUTF8StringEncoding error:nil];
+    [metaContent writeToFile:metaPath atomically:1 encoding:NSUTF8StringEncoding error:nil];
   },
 
   //保存html文件
