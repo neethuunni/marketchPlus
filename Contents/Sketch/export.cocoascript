@@ -308,7 +308,7 @@ Marketch.prototype = {
       src: artboardData.src,
       type: artboardData.type
     }
-    this.metaData.push(artboardMeta);
+    this.metaData.push(this.artboardMeta);
     //导出选项
     var exportConfig = {
       //导出文件名（不包含扩展名）
