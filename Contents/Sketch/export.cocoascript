@@ -561,7 +561,7 @@ Marketch.prototype = {
   //保存数据文件
   saveDataFile: function(){
     var jsonData = 'var pageData = '+ JSON.stringify(this.sketchData);
-    var metaData = 'var metaData = '+ JSON.stringify(this.metaData);
+    var metaData = JSON.stringify(this.metaData);
     var content = [NSString stringWithCString:jsonData encoding:NSUTF8StringEncoding];
     var metaContent = [NSString stringWithCString:metaData encoding:NSUTF8StringEncoding];
     var dataPath = this.tmpPath.dataPath;
