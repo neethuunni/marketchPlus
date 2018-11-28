@@ -50,45 +50,18 @@ ExportAsZip.prototype = {
           zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
 
           if(zipResult){
-           var urlString = "http://10.7.50.13:8000/exegesis/sketch_upload/";
-            var request = NSMutableURLRequest.alloc().init().autorelease();
-            request.setURL(NSURL.URLWithString(urlString));
-            request.setHTTPMethod("POST");
+            var request = NSMutableURLRequest.alloc().init();
+            request.setHTTPMethod_("GET");
+            request.setURL_(NSURL.URLWithString_('https://raw.githubusercontent.com/nodejs/node/master/AUTHORS'));
+            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error_(request,nil,nil);
+            var stringResponse = NSString.alloc().initWithData_encoding_(responseData,NSUTF8StringEncoding]);
+            doc.showMessage(stringResponse);
 
-            //var boundary = NSString.stringWithFormat("Boundary-%", NSUUID.UUID().UUIDString());
-            var boundary = NSString.stringWithString("63c5979328c44e2c869349443a94200e");
-            var contentType = NSString.stringWithFormat("multipart/form-data; boundary=%@", boundary);
-            var apiKey = NSString.stringWithString("9e301234");
-            request.addValue_forHTTPHeaderField(contentType, "Content-Type");
-            request.setValue_forHTTPHeaderField(apiKey, "X-theapikey");
-            //Reading the file
-            var filePath = exportPath;
-            //var filePath = 'Users/qburst/Documents/marketch.zip';
-            var myData = NSData.dataWithContentsOfFile(filePath);
-            var filename = 'marketch.zip';
-            if (myData == nil)
-            {
-            doc.showMessage("Failed to read file !");
-            }
-            var body = NSMutableData.data();
-
-            body.appendData(NSString.stringWithFormat("--%@\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"%@\"\r\n", filename).dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(NSString.stringWithFormat("Content-Type: application/octet-stream\r\n\r\n").dataUsingEncoding(NSUTF8StringEncoding));
-            body.appendData(myData);
-            body.appendData(NSString.stringWithFormat("\r\n--%@--\r\n", boundary).dataUsingEncoding(NSUTF8StringEncoding));
-
-            request.setHTTPBody(body);
-
-            var response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-            var result = [NSJSONSerialization JSONObjectWithData:response options:nil error:nil];
-            //var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, response, error);
-            //doc.showMessage(responseData);
             //task执行成功
-            doc.showMessage(I18N.EXPORTSUCCESS);
-            //var zipURL = [NSURL fileURLWithPath: exportPath];
-            //var fileURLs = [NSArray arrayWithArray:[zipURL]];
-            //[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
+            //doc.showMessage(I18N.EXPORTSUCCESS);
+            var zipURL = [NSURL fileURLWithPath: exportPath];
+            var fileURLs = [NSArray arrayWithArray:[zipURL]];
+            [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:fileURLs];
           }else{
             doc.showMessage(I18N.EXPORTFAIL);
           }
