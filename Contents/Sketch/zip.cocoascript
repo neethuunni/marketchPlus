@@ -50,13 +50,6 @@ ExportAsZip.prototype = {
           zipResult = util.zipFile(marketch.tmpPath.basePath, exportPath);
 
           if(zipResult){
-            var request = NSMutableURLRequest.alloc().init();
-            request.setHTTPMethod_("GET");
-            request.setURL_(NSURL.URLWithString_('https://raw.githubusercontent.com/nodejs/node/master/AUTHORS'));
-            var responseData = NSURLConnection.sendSynchronousRequest_returningResponse_error_(request,nil,nil);
-            var stringResponse = NSString.alloc().initWithData_encoding_(responseData,NSUTF8StringEncoding]);
-            doc.showMessage(stringResponse);
-
             //task执行成功
             //doc.showMessage(I18N.EXPORTSUCCESS);
             var zipURL = [NSURL fileURLWithPath: exportPath];
